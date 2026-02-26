@@ -2,26 +2,43 @@ require("dotenv").config();
 
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors"); // ✅ ADD THIS
 
 const app = express();
 
-// ✅ Debug: Check Environment Variables
-console.log("========== ENV DEBUG ==========");
-console.log("MONGO_URI:", process.env.MONGO_URI);
-console.log("PORT:", process.env.PORT);
-console.log("================================");
+
+// ✅ Enable CORS (IMPORTANT FIX)
+app.use(cors({
+  origin: [
+    "http://localhost:3000", // React local
+    "https://bus-tracker-n8jp.vercel.app" // Vercel frontend (add after deploy)
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
+
 
 // Middleware
 app.use(express.json());
 
+
+// ✅ Debug: Check Environment Variables
+console.log("========== ENV DEBUG ==========");
+console.log("MONGO_URI:", process.env.MONGO_URI ? "Loaded ✅" : "Missing ❌");
+console.log("PORT:", process.env.PORT);
+console.log("================================");
+
+
 // Test route
 app.get("/", (req, res) => {
-  res.send("Server is working 🚀");
+  res.send("Backend is running");
 });
+
 
 const PORT = process.env.PORT || 5000;
 
-// ✅ Connect to MongoDB with proper error logging
+
+// ✅ Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log("✅ MongoDB Connected Successfully");
