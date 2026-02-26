@@ -11,7 +11,7 @@ const app = express();
 app.use(cors({
   origin: [
     "http://localhost:3000", // React local
-    "https://bus-tracker-n8jp.vercel.app" // Vercel frontend (add after deploy)
+    "https://ccooking2.vercel.app" // Vercel frontend (add after deploy)
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
